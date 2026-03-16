@@ -1,12 +1,12 @@
 /**
  * Run N full AI bracket simulations locally (no workflow, no API).
  *
- * Calls Gemini directly for each game pick and saves completed brackets to
- * Redis. Each invocation runs brackets serially; launch multiple processes
+ * Calls Claude Haiku directly for each game pick and saves completed brackets
+ * to Redis. Each invocation runs brackets serially; launch multiple processes
  * in separate terminals for parallelism.
  *
  * Prerequisites:
- *   1. GOOGLE_GENERATIVE_AI_API_KEY (or equivalent) in .env.local.
+ *   1. ANTHROPIC_API_KEY in .env.local.
  *   2. REDIS_URL in .env.local (for leaderboard persistence).
  *
  * Usage:
@@ -70,9 +70,9 @@ async function main() {
 
   console.log(`AI simulation batch (local, no workflow)`);
   console.log(`  Total runs:  ${count}`);
-  console.log(`  Model:       google/gemini-3-flash`);
+  console.log(`  Model:       anthropic/claude-4-5-haiku-latest`);
   console.log(`  Redis:       ${process.env.REDIS_URL ? "configured" : "NOT SET — results won't persist"}`);
-  console.log(`\nEach run simulates a full 67-game bracket via Gemini.\n`);
+  console.log(`\nEach run simulates a full 67-game bracket via Claude Haiku.\n`);
 
   let completed = 0;
   let failed = 0;

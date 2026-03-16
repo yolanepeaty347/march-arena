@@ -11,6 +11,7 @@
     "ai-sim-batch": "tsx scripts/run-ai-simulations.ts"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^3.0.58",
     "@vercel/firewall": "^1.1.2",
     "ai": "^6.0.116",
     "class-variance-authority": "^0.7.1",

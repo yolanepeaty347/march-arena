@@ -1,3 +1,4 @@
+import { anthropic } from "@ai-sdk/anthropic";
 import { generateText, jsonSchema, Output } from "ai";
 import {
   formatVenueLine,
@@ -14,7 +15,7 @@ import { FIRST_FOUR_SLOTS } from "@/lib/simulation-shared";
 import { getMatchupKey, SEED_MATCHUP_STATS } from "@/lib/tournament-context";
 import { generateMatchupAnalysis } from "@/lib/win-probability";
 
-export const MODEL = "google/gemini-3-flash";
+export const MODEL = anthropic("claude-4-5-haiku-latest");
 
 export const ROUND_NAMES = [
   "Round of 64",
