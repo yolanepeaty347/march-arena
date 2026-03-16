@@ -71,17 +71,15 @@ export async function simulateBracket(bracket: Bracket): Promise<SimulatedBracke
   }));
   const firstFourResults: SimulatedGame[] = [];
 
-  async function streamFirstFour(stage: SimulationStage) {
-    await emitProgress(
-      buildWorkflowStreamPayload(
-        bracket,
-        firstFourDisplay.map((g) => ({ ...g })),
-        cloneDisplay(regionDisplayDuringFF),
-        FF_PLACEHOLDERS.map((g) => ({ ...g })),
-        { ...CHAMP_PLACEHOLDER },
-        stage,
-        [...completedStages]
-      )
+  function buildFirstFourPayload(stage: SimulationStage): SimulationProgress {
+    return buildWorkflowStreamPayload(
+      bracket,
+      firstFourDisplay.map((g) => ({ ...g })),
+      cloneDisplay(regionDisplayDuringFF),
+      FF_PLACEHOLDERS.map((g) => ({ ...g })),
+      { ...CHAMP_PLACEHOLDER },
+      stage,
+      [...completedStages]
     );
   }
 
@@ -90,9 +88,10 @@ export async function simulateBracket(bracket: Bracket): Promise<SimulatedBracke
     chunk.forEach((game, j) => {
       firstFourDisplay[i + j] = { ...game, status: "in_progress" };
     });
-    await streamFirstFour("first-four");
     const chunkRes = await Promise.all(
-      chunk.map((game) => simulateGame(game, firstFourContext))
+      chunk.map((game) =>
+        simulateAndEmit(game, firstFourContext, buildFirstFourPayload("first-four"))
+      )
     );
     chunkRes.forEach((res, j) => {
       firstFourDisplay[i + j] = { ...res, status: "final" as const };
@@ -106,7 +105,6 @@ export async function simulateBracket(bracket: Bracket): Promise<SimulatedBracke
         "First Four"
       );
     });
-    await streamFirstFour("first-four");
   }
 
   completedStages.push("first-four");
@@ -133,26 +131,24 @@ export async function simulateBracket(bracket: Bracket): Promise<SimulatedBracke
     ...placeholderRoundsFrom(region, 1),
   ]);
 
-  async function streamPayload(
+  function buildRegionPayload(
     display: Game[][][],
     ff: Game[],
     champ: Game,
     stage: SimulationStage
-  ) {
-    await emitProgress(
-      buildWorkflowStreamPayload(
-        bracket,
-        firstFourResults,
-        cloneDisplay(display),
-        ff.map((g) => ({ ...g })),
-        { ...champ },
-        stage,
-        [...completedStages]
-      )
+  ): SimulationProgress {
+    return buildWorkflowStreamPayload(
+      bracket,
+      firstFourResults,
+      cloneDisplay(display),
+      ff.map((g) => ({ ...g })),
+      { ...champ },
+      stage,
+      [...completedStages]
     );
   }
 
-  await streamPayload(regionDisplay, FF_PLACEHOLDERS, CHAMP_PLACEHOLDER, "first-four");
+  await emitProgress(buildRegionPayload(regionDisplay, FF_PLACEHOLDERS, CHAMP_PLACEHOLDER, "first-four"));
 
   const regionWinners: Team[] = [];
   let currentRoundGames: Game[][] = bracket.regions.map((r) =>
@@ -188,7 +184,7 @@ export async function simulateBracket(bracket: Bracket): Promise<SimulatedBracke
       bracket.regions.forEach((_, ri) => {
         regionDisplay[ri][roundIdx] = currentRoundGames[ri].map((g) => ({ ...g }));
       });
-      await streamPayload(regionDisplay, FF_PLACEHOLDERS, CHAMP_PLACEHOLDER, stage);
+      await emitProgress(buildRegionPayload(regionDisplay, FF_PLACEHOLDERS, CHAMP_PLACEHOLDER, stage));
     }
 
     const roundType =
@@ -224,9 +220,9 @@ export async function simulateBracket(bracket: Bracket): Promise<SimulatedBracke
           { ...job.game, status: "in_progress" }
         );
       }
-      await streamPayload(regionDisplay, FF_PLACEHOLDERS, CHAMP_PLACEHOLDER, stage);
+      const progressPayload = buildRegionPayload(regionDisplay, FF_PLACEHOLDERS, CHAMP_PLACEHOLDER, stage);
       const results = await Promise.all(
-        chunk.map((j) => simulateGame(j.game, j.context))
+        chunk.map((j) => simulateAndEmit(j.game, j.context, progressPayload))
       );
       chunk.forEach((job, j) => {
         regionDisplay[job.regionIdx][roundIdx] = patchRoundById(
@@ -236,7 +232,6 @@ export async function simulateBracket(bracket: Bracket): Promise<SimulatedBracke
         );
         updateTournamentContext(tournamentContext, job.game, results[j], ROUND_NAMES[roundIdx]);
       });
-      await streamPayload(regionDisplay, FF_PLACEHOLDERS, CHAMP_PLACEHOLDER, stage);
     }
 
     currentRoundResults = bracket.regions.map(
@@ -276,21 +271,20 @@ export async function simulateBracket(bracket: Bracket): Promise<SimulatedBracke
   };
 
   let ffDisplay: Game[] = finalFourGames.map((g) => ({ ...g }));
-  await streamPayload(regionDisplay, ffDisplay, CHAMP_PLACEHOLDER, "finals");
+  await emitProgress(buildRegionPayload(regionDisplay, ffDisplay, CHAMP_PLACEHOLDER, "finals"));
 
   const finalFourResults: SimulatedGame[] = [];
   for (let fi = 0; fi < 2; fi++) {
     ffDisplay = ffDisplay.map((g, idx) =>
       idx === fi ? { ...g, status: "in_progress" as const } : g
     );
-    await streamPayload(regionDisplay, ffDisplay, CHAMP_PLACEHOLDER, "finals");
-    const res = await simulateGame(finalFourGames[fi], finalFourContext);
+    const ffProgressPayload = buildRegionPayload(regionDisplay, ffDisplay, CHAMP_PLACEHOLDER, "finals");
+    const res = await simulateAndEmit(finalFourGames[fi], finalFourContext, ffProgressPayload);
     finalFourResults.push(res);
     updateTournamentContext(tournamentContext, finalFourGames[fi], res, "Final Four");
     ffDisplay = ffDisplay.map((g, idx) =>
       idx === fi ? { ...res, status: "final" as const } : g
     );
-    await streamPayload(regionDisplay, ffDisplay, CHAMP_PLACEHOLDER, "finals");
   }
   const finalFourFinal = ffDisplay as SimulatedGame[];
 
@@ -306,11 +300,9 @@ export async function simulateBracket(bracket: Bracket): Promise<SimulatedBracke
     tournamentContext,
   };
 
-  let champDisplay: Game = { ...championshipGame };
-  await streamPayload(regionDisplay, finalFourFinal, champDisplay, "finals");
-  champDisplay = { ...championshipGame, status: "in_progress" };
-  await streamPayload(regionDisplay, finalFourFinal, champDisplay, "finals");
-  const championshipResult = await simulateGame(championshipGame, championshipContext);
+  let champDisplay: Game = { ...championshipGame, status: "in_progress" };
+  const champProgressPayload = buildRegionPayload(regionDisplay, finalFourFinal, champDisplay, "finals");
+  const championshipResult = await simulateAndEmit(championshipGame, championshipContext, champProgressPayload);
   const winner = getWinner(championshipGame, championshipResult.winner!);
   const finalChampionship = { ...championshipResult, status: "final" as const };
   champDisplay = finalChampionship;
@@ -352,8 +344,18 @@ export async function simulateBracket(bracket: Bracket): Promise<SimulatedBracke
   };
 }
 
-async function simulateGame(game: Game, context?: GameContext): Promise<SimulatedGame> {
+async function simulateAndEmit(
+  game: Game,
+  context: GameContext | undefined,
+  progressPayload: SimulationProgress
+): Promise<SimulatedGame> {
   "use step";
+
+  const writable = getWritable<string>();
+  const writer = writable.getWriter();
+  await writer.write(JSON.stringify(progressPayload) + "\n");
+  writer.releaseLock();
+
   return simulateGameWithAI(game, context);
 }
 
