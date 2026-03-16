@@ -93,7 +93,7 @@ function getRegion(bracket: Bracket | SimulatedBracket, name: RegionName) {
 
 /**
  * Maps canonical bracket tree to ESPN-style compressed layout ids (s-r64-1, …)
- * for stable grid keys. Pairing: FF left = South vs West, right = East vs Midwest.
+ * for stable grid keys. Pairing (2026 NCAA): FF left = East vs South, right = West vs Midwest.
  */
 export function bracketToCompressedModel(
   bracket: Bracket | SimulatedBracket
@@ -107,8 +107,8 @@ export function bracketToCompressedModel(
     relabel(g, `ff-play-${i + 1}`)
   );
 
-  const ff0 = bracket.finalFour[0] ?? placeholderGame("ff-south-west");
-  const ff1 = bracket.finalFour[1] ?? placeholderGame("ff-east-midwest");
+  const ff0 = bracket.finalFour[0] ?? placeholderGame("ff-east-south");
+  const ff1 = bracket.finalFour[1] ?? placeholderGame("ff-west-midwest");
   const finalFourLeft = relabel(ff0, "ff-compressed-l");
   const finalFourRight = relabel(ff1, "ff-compressed-r");
   const champ =
@@ -148,8 +148,8 @@ export function bracketToCompressedModel(
     hydrateRegionAdvancement(r);
   }
 
-  const ffL = hydrateMatchupFromFeeders(finalFourLeft, southC.e8, westC.e8);
-  const ffR = hydrateMatchupFromFeeders(finalFourRight, eastC.e8, midwestC.e8);
+  const ffL = hydrateMatchupFromFeeders(finalFourLeft, eastC.e8, southC.e8);
+  const ffR = hydrateMatchupFromFeeders(finalFourRight, westC.e8, midwestC.e8);
   const championship = hydrateMatchupFromFeeders(champ, ffL, ffR);
 
   return {

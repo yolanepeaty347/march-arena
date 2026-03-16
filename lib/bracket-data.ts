@@ -621,8 +621,8 @@ export const BRACKET_2026: Bracket = {
     },
   ],
   finalFour: [
-    placeholderGame("ff-south-west"),
-    placeholderGame("ff-east-midwest"),
+    placeholderGame("ff-east-south"),
+    placeholderGame("ff-west-midwest"),
   ],
   championship: placeholderGame("champ"),
 };

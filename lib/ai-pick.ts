@@ -819,18 +819,18 @@ export async function simulateBracketLocally(
     )
   );
 
-  // 5. Final Four: South(0) vs West(2), East(1) vs Midwest(3)
+  // 5. Final Four (2026 NCAA): East(1) vs South(0), West(2) vs Midwest(3)
   const finalFourGames: Game[] = [
     {
-      id: "ff-south-west",
-      status: "scheduled",
-      team1: regionWinners[0],
-      team2: regionWinners[2],
-    },
-    {
-      id: "ff-east-midwest",
+      id: "ff-east-south",
       status: "scheduled",
       team1: regionWinners[1],
+      team2: regionWinners[0],
+    },
+    {
+      id: "ff-west-midwest",
+      status: "scheduled",
+      team1: regionWinners[2],
       team2: regionWinners[3],
     },
   ];

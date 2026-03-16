@@ -247,16 +247,16 @@ function simulateOnce(bracket: Bracket): SimResult {
     }
   }
 
-  // Final Four: South(0) vs West(2), East(1) vs Midwest(3)
+  // Final Four (2026 NCAA): East(1) vs South(0), West(2) vs Midwest(3)
   let champion: Team | null = null;
   if (regionWinners.length === 4) {
     const { winner: ff1Winner } = playGame(
+      regionWinners[1],
       regionWinners[0],
-      regionWinners[2],
       5
     );
     const { winner: ff2Winner } = playGame(
-      regionWinners[1],
+      regionWinners[2],
       regionWinners[3],
       5
     );

@@ -34,8 +34,8 @@ function cloneDisplay(d: Game[][][]): Game[][][] {
 }
 
 const FF_PLACEHOLDERS: Game[] = [
-  placeholderGame("ff-south-west"),
-  placeholderGame("ff-east-midwest"),
+  placeholderGame("ff-east-south"),
+  placeholderGame("ff-west-midwest"),
 ];
 const CHAMP_PLACEHOLDER = placeholderGame("champ");
 
@@ -174,17 +174,18 @@ export async function simulateBracket(
   completedStages.push("south", "east", "west", "midwest");
 
   // ── 5. Finals ──────────────────────────────────────────────────────
+  // 2026 NCAA: 1-seed region (East) vs 4-seed region (South); 2 (West) vs 3 (Midwest)
   const finalFourGames: Game[] = [
     {
-      id: "ff-south-west",
-      status: "scheduled",
-      team1: regionWinners[0],
-      team2: regionWinners[2],
-    },
-    {
-      id: "ff-east-midwest",
+      id: "ff-east-south",
       status: "scheduled",
       team1: regionWinners[1],
+      team2: regionWinners[0],
+    },
+    {
+      id: "ff-west-midwest",
+      status: "scheduled",
+      team1: regionWinners[2],
       team2: regionWinners[3],
     },
   ];
