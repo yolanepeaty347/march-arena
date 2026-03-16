@@ -41,6 +41,8 @@ export default function Home() {
 
   const handleBracketUpdate = useCallback((update: BracketType | SimulatedBracket) => {
     setBracket(update);
+    setHasStarted(true);
+    setStarting(false);
   }, []);
 
   const { runSimulation, running, error } = useSimulation(
@@ -70,14 +72,20 @@ export default function Home() {
     bracket.championship.winner != null;
 
   const phase = running ? inferSimPhase(bracket) : null;
-  const showOnboarding = !hasStarted && !running && !isComplete;
+  const showOnboarding = !hasStarted && !isComplete;
+
+  const [starting, setStarting] = useState(false);
 
   const handleStart = useCallback(() => {
-    setHasStarted(true);
+    setStarting(true);
     setSimFocusManaged(true);
     setSelectedGameId(null);
     runSimulation();
   }, [runSimulation]);
+
+  useEffect(() => {
+    if (!running) setStarting(false);
+  }, [running]);
 
   // Managed focus: stay on the live in-progress block; re-anchor when the chunk advances.
   useEffect(() => {
@@ -149,10 +157,31 @@ export default function Home() {
             <button
               type="button"
               onClick={handleStart}
-              disabled={running}
-              className="rounded-lg bg-[#c8102e] px-5 py-3.5 text-[15px] font-semibold text-white shadow-sm transition hover:bg-[#a50d25] disabled:opacity-50"
+              disabled={starting}
+              className="flex items-center justify-center gap-2 rounded-lg bg-[#c8102e] px-5 py-3.5 text-[15px] font-semibold text-white shadow-sm transition hover:bg-[#a50d25] disabled:opacity-70"
             >
-              Start simulation
+              {starting && (
+                <svg
+                  className="h-4 w-4 animate-spin"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                  />
+                </svg>
+              )}
+              {starting ? "Starting…" : "Start simulation"}
             </button>
             <p className="text-[12px] text-[#8a8a8a]">
               Runs the full tournament in one pass (many games in parallel per
@@ -187,6 +216,7 @@ export default function Home() {
                   type="button"
                   onClick={() => {
                     setHasStarted(false);
+                    setStarting(false);
                     setBracket(BRACKET_2026);
                     setSelectedGameId(null);
                     setSimFocusManaged(false);

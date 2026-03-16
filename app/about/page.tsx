@@ -222,6 +222,37 @@ export default function AboutPage() {
           </p>
         </Section>
 
+        {/* Disclaimer */}
+        <Section title="Disclaimer">
+          <div className="bg-white rounded-lg border border-[#dcdddf] p-4">
+            <p>
+              This project is built entirely for fun and is free for anyone to
+              try and use. We do not claim ownership over any data sourced from{" "}
+              <a
+                href="https://www.espn.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#0066cc] hover:underline"
+              >
+                ESPN
+              </a>
+              ,{" "}
+              <a
+                href="https://kenpom.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#0066cc] hover:underline"
+              >
+                KenPom
+              </a>
+              , or any other third-party source. All team names, logos, and
+              statistical data belong to their respective owners. This is an
+              independent, unofficial project with no affiliation to the NCAA,
+              ESPN, or KenPom.
+            </p>
+          </div>
+        </Section>
+
         {/* Footer */}
         <div className="mt-16 pt-8 border-t border-[#dcdddf]">
           <p className="text-[13px] text-[#6c6e6f] text-center">
