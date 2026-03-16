@@ -1,6 +1,6 @@
 import { getLeaderboardStats } from "@/lib/leaderboard";
 import { LeaderboardTable } from "@/components/LeaderboardTable";
-export const dynamic = "force-dynamic";
+export const dynamic = "force-static";
 
 export const metadata = {
   title: "Leaderboard",
