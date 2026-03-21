@@ -550,14 +550,14 @@ export const BRACKET_2026: Bracket = {
       // 1 seed: Florida
       rounds: [
         [
-          scheduledGame("s1", team("Florida", 1), team("Howard", 16)),
-          scheduledGame("s2", team("Clemson", 8), team("Iowa", 9)),
-          scheduledGame("s3", team("Vanderbilt", 5), team("McNeese", 12)),
-          scheduledGame("s4", team("Nebraska", 4), team("Troy", 13)),
-          scheduledGame("s5", team("North Carolina", 6), team("VCU", 11)),
-          scheduledGame("s6", team("Illinois", 3), team("Penn", 14)),
-          scheduledGame("s7", team("Saint Mary's", 7), team("Texas A&M", 10)),
-          scheduledGame("s8", team("Houston", 2), team("Idaho", 15)),
+          finalGame("s1", team("Florida", 1), team("Prairie View", 16), 114, 55),
+          finalGame("s2", team("Clemson", 8), team("Iowa", 9), 61, 67),
+          finalGame("s3", team("Vanderbilt", 5), team("McNeese", 12), 78, 68),
+          finalGame("s4", team("Nebraska", 4), team("Troy", 13), 76, 47),
+          finalGame("s5", team("North Carolina", 6), team("VCU", 11), 78, 82, "Final/OT"),
+          finalGame("s6", team("Illinois", 3), team("Penn", 14), 105, 70),
+          finalGame("s7", team("Saint Mary's", 7), team("Texas A&M", 10), 50, 63),
+          finalGame("s8", team("Houston", 2), team("Idaho", 15), 78, 47),
         ],
         [
           placeholderGame("s9"),
@@ -574,14 +574,14 @@ export const BRACKET_2026: Bracket = {
       // 1 seed: Duke
       rounds: [
         [
-          scheduledGame("e1", team("Duke", 1), team("Siena", 16)),
-          scheduledGame("e2", team("Ohio St", 8), team("TCU", 9)),
-          scheduledGame("e3", team("St John's", 5), team("Northern Iowa", 12)),
-          scheduledGame("e4", team("Kansas", 4), team("Cal Baptist", 13)),
-          scheduledGame("e5", team("Louisville", 6), team("South Florida", 11)),
-          scheduledGame("e6", team("Michigan St", 3), team("North Dakota St", 14)),
-          scheduledGame("e7", team("UCLA", 7), team("UCF", 10)),
-          scheduledGame("e8", team("UConn", 2), team("Furman", 15)),
+          finalGame("e1", team("Duke", 1), team("Siena", 16), 71, 65),
+          finalGame("e2", team("Ohio St", 8), team("TCU", 9), 64, 66),
+          finalGame("e3", team("St John's", 5), team("Northern Iowa", 12), 79, 53),
+          finalGame("e4", team("Kansas", 4), team("Cal Baptist", 13), 68, 60),
+          finalGame("e5", team("Louisville", 6), team("South Florida", 11), 83, 79),
+          finalGame("e6", team("Michigan St", 3), team("North Dakota St", 14), 92, 67),
+          finalGame("e7", team("UCLA", 7), team("UCF", 10), 75, 71),
+          finalGame("e8", team("UConn", 2), team("Furman", 15), 82, 71),
         ],
         [
           placeholderGame("e9"),
@@ -598,14 +598,14 @@ export const BRACKET_2026: Bracket = {
       // 1 seed: Arizona
       rounds: [
         [
-          scheduledGame("w1", team("Arizona", 1), team("LIU", 16)),
-          scheduledGame("w2", team("Villanova", 8), team("Utah State", 9)),
-          scheduledGame("w3", team("Wisconsin", 5), team("High Point", 12)),
-          scheduledGame("w4", team("Arkansas", 4), team("Hawaii", 13)),
-          scheduledGame("w5", team("BYU", 6), team("Texas", 11)),
-          scheduledGame("w6", team("Gonzaga", 3), team("Kennesaw St", 14)),
-          scheduledGame("w7", team("Miami FL", 7), team("Missouri", 10)),
-          scheduledGame("w8", team("Purdue", 2), team("Queens", 15)),
+          finalGame("w1", team("Arizona", 1), team("LIU", 16), 92, 58),
+          finalGame("w2", team("Villanova", 8), team("Utah State", 9), 76, 86),
+          finalGame("w3", team("Wisconsin", 5), team("High Point", 12), 82, 83),
+          finalGame("w4", team("Arkansas", 4), team("Hawaii", 13), 97, 78),
+          finalGame("w5", team("BYU", 6), team("Texas", 11), 71, 79),
+          finalGame("w6", team("Gonzaga", 3), team("Kennesaw St", 14), 73, 64),
+          finalGame("w7", team("Miami FL", 7), team("Missouri", 10), 80, 66),
+          finalGame("w8", team("Purdue", 2), team("Queens", 15), 104, 71),
         ],
         [
           placeholderGame("w9"),
@@ -622,14 +622,14 @@ export const BRACKET_2026: Bracket = {
       // 1 seed: Michigan
       rounds: [
         [
-          scheduledGame("m1", team("Michigan", 1), team("Prairie View", 16)),
-          scheduledGame("m2", team("Georgia", 8), team("Saint Louis", 9)),
-          scheduledGame("m3", team("Texas Tech", 5), team("Akron", 12)),
-          scheduledGame("m4", team("Alabama", 4), team("Hofstra", 13)),
-          scheduledGame("m5", team("Tennessee", 6), team("Miami OH", 11)),
-          scheduledGame("m6", team("Virginia", 3), team("Wright St", 14)),
-          scheduledGame("m7", team("Kentucky", 7), team("Santa Clara", 10)),
-          scheduledGame("m8", team("Iowa State", 2), team("Tennessee St", 15)),
+          finalGame("m1", team("Michigan", 1), team("Howard", 16), 101, 80),
+          finalGame("m2", team("Georgia", 8), team("Saint Louis", 9), 77, 102),
+          finalGame("m3", team("Texas Tech", 5), team("Akron", 12), 91, 71),
+          finalGame("m4", team("Alabama", 4), team("Hofstra", 13), 90, 70),
+          finalGame("m5", team("Tennessee", 6), team("Miami OH", 11), 78, 56),
+          finalGame("m6", team("Virginia", 3), team("Wright St", 14), 82, 73),
+          finalGame("m7", team("Kentucky", 7), team("Santa Clara", 10), 89, 84, "Final/OT"),
+          finalGame("m8", team("Iowa State", 2), team("Tennessee St", 15), 108, 74),
         ],
         [
           placeholderGame("m9"),
